@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { BASE_URL } from "../../redux/thunks/api";
 
 
 export default function Signup(){
@@ -33,7 +34,7 @@ export default function Signup(){
             toast.error("Please enter valid email",{id:id})
         }
 try {
-    const signup = await axios.post(`${process.env.VITE_BASE_URL}/user/createUser`, input)
+    const signup = await axios.post(`${BASE_URL}/user/createUser`, input)
         if(signup.data.success){
             toast.success("Account created Successfully",{id:id})
             navigate('/login')            

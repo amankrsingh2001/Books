@@ -4,6 +4,7 @@ import { Star } from 'lucide-react'
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { setReview } from "../redux/slices/bookDetailsSlice"
+import { BASE_URL } from "../redux/thunks/api"
 
 export function ReviewForm({ bookId, bookTitle, setAddReview, review }) {
   const token = useSelector((state)=>state.user)
@@ -28,7 +29,7 @@ export function ReviewForm({ bookId, bookTitle, setAddReview, review }) {
         rating:rating
     }
 try {
-  const addReview = await axios.post(`${process.env.VITE_BASE_URL}/books/addReview`, reviewDetails, {
+  const addReview = await axios.post(`${BASE_URL}/books/addReview`, reviewDetails, {
     headers:{
       Authorization:`Bearer ${token.token}`
     }

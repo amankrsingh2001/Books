@@ -4,6 +4,8 @@ import { setBookDetails, setReview } from "../slices/bookDetailsSlice"
 import { setBooks, setCurrentPage, setTotalItem, setTotalPages } from "../slices/bookSlice"
 import { setToken } from "../slices/userSlice"
 
+export const BASE_URL = import.meta.env.VITE_BASE_URL
+
 export function setLogin(data, navigate){
     return async(dispatch)=>{
         
@@ -13,7 +15,7 @@ export function setLogin(data, navigate){
                 throw new Error("Data isnt valid")
             }
                
-                const response = await axios.post(`${process.env.VITE_BASE_URL}/user/login`, data)
+                const response = await axios.post(`${BASE_URL}/user/login`, data)
                 dispatch(setToken(response.data.token))
                 toast.success("Logged in successfully",{
                     id:toastId
@@ -31,7 +33,7 @@ export function setLogin(data, navigate){
 export function getBooks(page, navigate){
     return async(dispatch)=>{
         try {
-            const booksData = await axios.get(`${process.env.VITE_BASE_URL}/books/getBook?page=${page}&limit=10`)
+            const booksData = await axios.get(`${BASE_URL}/books/getBook?page=${page}&limit=10`)
             dispatch(setBooks(booksData.data.books))
             dispatch(setCurrentPage(booksData.data.currentPage))
             dispatch(setTotalPages(booksData.data.totalPages))
@@ -45,7 +47,7 @@ export function getBooks(page, navigate){
 export function setBooksDetailsById(id, navigate){
     return async(dispatch)=>{
         try {
-            const data = await axios.get(`${process.env.VITE_BASE_URL}/books/getBookDetails?id=${id}`)
+            const data = await axios.get(`${BASE_URL}/books/getBookDetails?id=${id}`)
             dispatch(setBookDetails(data.data.bookDetails))
             dispatch(setReview(data.data.bookReview))
         } catch (error) {

@@ -4,14 +4,16 @@ import axios from "axios";
 import Loading from "./Loading";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
+import { BASE_URL } from "../redux/thunks/api";
 
 export default function Featured() {
   const [featuredBooks, setFeaturedBooks] = useState([]);
 
+
   const getFeaturedBooks = async () => {
     try {
       const booksData = await axios.get(
-        `${process.env.VITE_BASE_URL}/books/featuredBooks`
+        `${BASE_URL}/books/featuredBooks`
       );
       setFeaturedBooks(booksData.data.books);
       console.log(booksData.data.books);
