@@ -7,6 +7,8 @@ import BrowseBooks from "../components/BrowseBooks";
 import Login from "../components/Auth/Login";
 import Signup from "../components/Auth/Signup";
 import BookDeatil from "../components/BookDetail";
+import ErrorPage from "../components/Auth/ErrorPage";
+
 
 
 const App = lazy(()=>import("../App"))
@@ -31,7 +33,7 @@ const router = createBrowserRouter([
                 },
                 // {
                 //     path:'/profile',
-                //     element
+                //     element:<UserProfile/>
                 // }
             ]
     },{
@@ -40,15 +42,12 @@ const router = createBrowserRouter([
     },{
         path:'/signup',
         element:<Signup/>
-    }
-
-   
-    
-    
+    },
     // error handler 
-    // {
-    //     path:"*"
-    // }
+    {
+        path:"*",
+        element:<ErrorPage/>
+    }
 ])
 
 export default router

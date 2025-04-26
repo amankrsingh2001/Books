@@ -13,13 +13,14 @@ export function setLogin(data, navigate){
                 throw new Error("Data isnt valid")
             }
                
-                const response = await axios.post('http://localhost:8000/api/v1/user/login', data)
+                const response = await axios.post(`${process.env.VITE_BASE_URL}/user/login`, data)
                 dispatch(setToken(response.data.token))
                 toast.success("Logged in successfully",{
                     id:toastId
                 })
                 navigate('/books')
             } catch (error){
+                
                 toast.error(error.message || "Something went wrong",{
                     id:toastId
                 })
@@ -30,7 +31,7 @@ export function setLogin(data, navigate){
 export function getBooks(page, navigate){
     return async(dispatch)=>{
         try {
-            const booksData = await axios.get(`http://localhost:8000/api/v1/books/getBook?page=${page}&limit=10`)
+            const booksData = await axios.get(`${process.env.VITE_BASE_URL}/books/getBook?page=${page}&limit=10`)
             dispatch(setBooks(booksData.data.books))
             dispatch(setCurrentPage(booksData.data.currentPage))
             dispatch(setTotalPages(booksData.data.totalPages))
@@ -44,7 +45,7 @@ export function getBooks(page, navigate){
 export function setBooksDetailsById(id, navigate){
     return async(dispatch)=>{
         try {
-            const data = await axios.get(`http://localhost:8000/api/v1/books/getBookDetails?id=${id}`)
+            const data = await axios.get(`${process.env.VITE_BASE_URL}/books/getBookDetails?id=${id}`)
             dispatch(setBookDetails(data.data.bookDetails))
             dispatch(setReview(data.data.bookReview))
         } catch (error) {

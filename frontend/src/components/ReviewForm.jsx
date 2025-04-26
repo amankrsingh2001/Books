@@ -28,7 +28,7 @@ export function ReviewForm({ bookId, bookTitle, setAddReview, review }) {
         rating:rating
     }
 try {
-  const addReview = await axios.post(`http://localhost:8000/api/v1/books/addReview`, reviewDetails, {
+  const addReview = await axios.post(`${process.env.VITE_BASE_URL}/books/addReview`, reviewDetails, {
     headers:{
       Authorization:`Bearer ${token.token}`
     }

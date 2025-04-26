@@ -33,7 +33,7 @@ export default function Signup(){
             toast.error("Please enter valid email",{id:id})
         }
 try {
-    const signup = await axios.post('http://localhost:8000/api/v1/user/createUser', input)
+    const signup = await axios.post(`${process.env.VITE_BASE_URL}/user/createUser`, input)
         if(signup.data.success){
             toast.success("Account created Successfully",{id:id})
             navigate('/login')            

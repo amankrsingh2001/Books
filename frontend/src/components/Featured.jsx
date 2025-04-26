@@ -11,7 +11,7 @@ export default function Featured() {
   const getFeaturedBooks = async () => {
     try {
       const booksData = await axios.get(
-        "http://localhost:8000/api/v1/books/featuredBooks"
+        `${process.env.VITE_BASE_URL}/books/featuredBooks`
       );
       setFeaturedBooks(booksData.data.books);
       console.log(booksData.data.books);
