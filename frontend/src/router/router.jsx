@@ -6,6 +6,7 @@ import Featured from "../components/Featured";
 import BrowseBooks from "../components/BrowseBooks";
 import Login from "../components/Auth/Login";
 import Signup from "../components/Auth/Signup";
+import BookDeatil from "../components/Auth/BookDetail";
 
 const App = lazy(()=>import("../App"))
 
@@ -23,6 +24,9 @@ const router = createBrowserRouter([
                 {
                     path:'/browse',
                     element:<BrowseBooks/>
+                },{
+                    path:'/book/:id',
+                    element:<BookDeatil/>
                 }
             ]
     },{

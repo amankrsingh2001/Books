@@ -6,10 +6,10 @@ import { Star } from "lucide-react";
 
 export default function BrowseBooks() {
   const books = useSelector((state) => state.books);
-  
-
   const [page, setPage] = useState(1);
 
+
+  
   return (
     <div className=" relative top-22 w-screen  bg-[#FAFAFA] ">
       <div className="w-[80%] mx-auto py-6 flex items-center justify-between">
@@ -50,7 +50,7 @@ export default function BrowseBooks() {
                 <div className="flex flex-wrap gap-10 ">
                     {
                         books.books.map((book, index)=>{
-                                return (   <Link key={index} href={`/books/${book.id}`} className="group w-[300px] ">
+                                return (   <Link onClick={()=>console.log('clicked')} key={index} to={`/book/${book._id}`} className="group w-[300px] ">
                                     <div className="rounded-xl overflow-hidden bg-white border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300">
                                       <div className="relative  overflow-hidden">
                                         <img
