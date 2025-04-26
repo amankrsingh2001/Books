@@ -7,7 +7,6 @@ export function setLogin(data, navigate){
     return async(dispatch)=>{
         const toastId = toast.loading('...loading') 
             try {
-                console.log(data)
                 const response = await axios.post('http://localhost:8000/api/v1/user/login', data)
                 window.localStorage.setItem('token', response.data.token)
                 toast.success("Logged in successfully",{
@@ -41,7 +40,6 @@ export function setBooksDetailsById(id, navigate){
     return async(dispatch)=>{
         try {
             const data = await axios.get(`http://localhost:8000/api/v1/books/getBookDetails?id=${id}`)
-            console.log(data)
             dispatch(setBookDetails(data.data.bookDetails))
             dispatch(setReview(data.data.bookReview))
         } catch (error) {

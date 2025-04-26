@@ -55,11 +55,11 @@ export const getBookDeatails = async(req, res)=>{
       const getBook = await Book.findById({
         _id:id
       })
-      console.log(id)
+
       const review = await Review.find({
         bookId:id
       }).populate('userId')
-      console.log(review)
+    
           return res.json({
             bookDetails:getBook,
             bookReview:review

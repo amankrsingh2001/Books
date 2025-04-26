@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { booksData } from "../../data/booksData";
+import {  useNavigate, useParams } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { FaBackward } from "react-icons/fa";
 import { Badge, BookOpen, Heart, Share, Star } from "lucide-react";
-import axios from "axios";
 import { setBooksDetailsById } from "../redux/thunks/api";
+import { ReviewForm } from "./ReviewForm";
 
 export default function BookDeatil() {
   const { details, review } = useSelector((state) => state.bookDetail);
+  const [addReview, setAddReview] = useState(false)
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
@@ -17,7 +18,6 @@ export default function BookDeatil() {
   useEffect(() => {
     dispatch(setBooksDetailsById(params.id, navigate));
   }, [params.id]);
-  console.log(review)
 
   if (Object.keys(details).length == 0) {
     return <div>....Load ho rha hai bhia </div>;
@@ -98,49 +98,64 @@ export default function BookDeatil() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-                {
-                  review.map((rev)=>{
-                    return <div key={rev.id} className="rounded-lg border border-gray-200  bg-white  overflow-hidden">
-                    <div className="p-4 pb-2 border-b border-gray-100 ">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="relative h-8 w-8 overflow-hidden rounded-full">
-                            {/* {rev.user.avatar ? (
-                              <img 
-                                src={rev.userId.avatar || "/placeholder.svg"} 
-                                alt={rev.user.name}
-                                className="h-full w-full object-cover"
-                              />
-                            ) : (
-                              <div className="flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium">
-                                {rev.user.initials}
-                              </div>
-                            )} */}
-                          </div>
-                          <div>
-                            <div className="font-medium">{rev.title}</div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400">by {`${rev.userId.firstName }`}  </div>
-                          </div>
-                        </div>
-                        <div className="flex">
-                          {Array.from({ length: 5 }).map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`h-4 w-4 ${i < rev.rating ? "fill-amber-500 text-amber-500" : "text-gray-300 dark:text-gray-600"}`}
+            <div className="flex ">
+                <div className="mx-auto bg-white border border-gray-200 w-[50%] py-2">
+                  <p className="text-center">Reviews</p>
+                </div>
+                <div onClick={()=>setAddReview(true)} className="mx-auto border border-gray-200 w-[50%] py-2">
+                <p className="text-center">Write a Review</p>
+                </div>
+            </div>
+
+            {
+              !addReview ? <div className="flex flex-col gap-4">
+              {
+                review.map((rev)=>{
+                  return <div key={rev.id} className="rounded-lg border border-gray-200  bg-white  overflow-hidden">
+                  <div className="p-4 pb-2 border-b border-gray-100 ">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="relative h-8 w-8 overflow-hidden rounded-full">
+                          {/* {rev.user.avatar ? (
+                            <img 
+                              src={rev.userId.avatar || "/placeholder.svg"} 
+                              alt={rev.user.name}
+                              className="h-full w-full object-cover"
                             />
-                          ))}
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium">
+                              {rev.user.initials}
+                            </div>
+                          )} */}
+                        </div>
+                        <div>
+                          <div className="font-medium">{rev.title}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">by {`${rev.userId.firstName }`}  </div>
                         </div>
                       </div>
+                      <div className="flex">
+                        {Array.from({ length: 5 }).map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${i < rev.rating ? "fill-amber-500 text-amber-500" : "text-gray-300 dark:text-gray-600"}`}
+                          />
+                        ))}
+                      </div>
                     </div>
-                    <div className="p-4 pb-2">
-                      <p className="text-sm">{rev.review}</p>
-                    </div>
-                    <div className="px-4 py-3 text-xs text-gray-500 dark:text-gray-400">{rev.date}</div>
                   </div>
-                  })
-                }
-             </div>
+                  <div className="p-4 pb-2">
+                    <p className="text-sm">{rev.review}</p>
+                  </div>
+                  <div className="px-4 py-3 text-xs text-gray-500 dark:text-gray-400">{rev.date}</div>
+                </div>
+                })
+              }
+           </div>:<div>
+            <ReviewForm bookId={params.id} bookTitle={details.name} setAddReview={setAddReview} review={review}/>
+           </div>
+            }
+
+            
           </div>
         </div>
       </div>
