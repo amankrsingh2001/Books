@@ -1,12 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
+
+import { getBooks } from "../redux/thunks/api";
 
 export default function BrowseBooks() {
   const books = useSelector((state) => state.books);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+      dispatch(getBooks(page, navigate))
+  },[page])
+
+  const prevPageHandler = ()=>{
+    if(page>1){
+      setPage(prev=>(prev-1))
+    }
+  }
+
+  const nextPageHandler = ()=>{
+    if(page<books.totalPages){
+      setPage(prev=>(prev+1))
+    }
+    
+  }
 
 
   
@@ -90,7 +111,7 @@ export default function BrowseBooks() {
             
       </div>
       <div className="mt-8 flex items-center justify-center py-4 gap-4">
-            <button className="border-[2px]  border-[#EAEAEA] px-3 py-1 rounded-sm cursor-pointer">
+            <button onClick={prevPageHandler} className="border-[2px]  border-[#EAEAEA] px-3 py-1 rounded-sm cursor-pointer">
               Previous
             </button>
             <button className={`border-[2px] border-[#EAEAEA] px-3 py-1 rounded-md ${books.currentPage === 1?"bg-black text-white":"bg-white text-black"}`}>
@@ -102,10 +123,12 @@ export default function BrowseBooks() {
             <button className={`border-[2px] border-[#EAEAEA] px-3 py-1 rounded-md ${books.currentPage === 3?"bg-black text-white":"bg-white text-black"}`}>
               3
             </button>
-            <button className="border-[2px] border-[#EAEAEA] px-3 py-1 rounded-sm cursor-pointer">
+            <button onClick={nextPageHandler} className="border-[2px] border-[#EAEAEA] px-3 py-1 rounded-sm cursor-pointer">
               Next
             </button>
-          </div>
+      </div>
+
+     
     </div>
   );
 }

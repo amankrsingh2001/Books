@@ -1,6 +1,7 @@
 import axios from "axios"
 import toast from "react-hot-toast"
-import { setBooks } from "../slices/bookSlice"
+import { setBookDetails, setReview } from "../slices/bookDetailsSlice"
+import { setBooks, setCurrentPage, setTotalItem, setTotalPages } from "../slices/bookSlice"
 
 export function setLogin(data, navigate){
     return async(dispatch)=>{
@@ -12,12 +13,6 @@ export function setLogin(data, navigate){
                 toast.success("Logged in successfully",{
                     id:toastId
                 })
-                const booksData = await axios.get('http://localhost:8000/api/v1/books/getBook?page=1&limit=10')
-                console.log(booksData)
-                window.localStorage.setItem('books', JSON.stringify(booksData.data.books))
-                window.localStorage.setItem('totalPages', JSON.stringify(booksData.data.totalPages))
-                window.localStorage.setItem('totalItems', JSON.stringify(booksData.data.totalItems))
-                window.localStorage.setItem('currentPage', JSON.stringify(booksData.data.currentPage))
                 navigate('/browse')
             } catch (error){
                 console.log(error)
@@ -28,8 +23,29 @@ export function setLogin(data, navigate){
     }
 }
 
-// export function setBooksData(data, navigate){
-//     return async(dispatch)=>{
+export function getBooks(page, navigate){
+    return async(dispatch)=>{
+        try {
+            const booksData = await axios.get(`http://localhost:8000/api/v1/books/getBook?page=${page}&limit=10`)
+            dispatch(setBooks(booksData.data.books))
+            dispatch(setCurrentPage(booksData.data.currentPage))
+            dispatch(setTotalPages(booksData.data.totalPages))
+            dispatch(setTotalItem(booksData.data.totalItems))
+        } catch (error) {
+                console.log(error)
+        }
+    }
+}
 
-//     }
-// }
+export function setBooksDetailsById(id, navigate){
+    return async(dispatch)=>{
+        try {
+            const data = await axios.get(`http://localhost:8000/api/v1/books/getBookDetails?id=${id}`)
+            console.log(data)
+            dispatch(setBookDetails(data.data.bookDetails))
+            dispatch(setReview(data.data.bookReview))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}

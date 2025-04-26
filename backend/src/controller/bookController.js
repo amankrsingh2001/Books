@@ -19,7 +19,7 @@ export const addfeaturedBooks = async(req, res)=>{
 export const getBook = async(req, res)=>{
   try {
     const { page = 1, limit = 10 } = req.query;  
-    console.log(page, limit)
+    
               const books = await Book.find()
                 .skip((page - 1) * limit)
                 .limit(Number(limit))
@@ -41,8 +41,9 @@ export const getBook = async(req, res)=>{
     }
 }
 
-export const getBookDeatils = async(req, res)=>{
+export const getBookDeatails = async(req, res)=>{
   const {id} = req.query
+  
   try {
       if(!id){
         return res.status(404).json({
@@ -51,19 +52,23 @@ export const getBookDeatils = async(req, res)=>{
           success:false
         })
       }
-
       const getBook = await Book.findById({
-        id:id
+        _id:id
       })
+      console.log(id)
       const review = await Review.find({
         bookId:id
-      })
-      
+      }).populate('userId')
+      console.log(review)
+          return res.json({
+            bookDetails:getBook,
+            bookReview:review
+          })
   } catch (error) {
+    console.log(error)
       return res.status(500).json({
         message:"Something went wrong",
-        success:false,
-        
+        success:false,        
       })
   }
 }

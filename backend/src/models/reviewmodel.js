@@ -14,7 +14,7 @@ const reviewSchema = new Schema({
         ref:"User"
     },
     rating:{
-        type:number,
+        type:Number,
         required:true,
         maxLength:5
     }

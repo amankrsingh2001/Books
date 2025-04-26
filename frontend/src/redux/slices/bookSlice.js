@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = {
-    currentPage:localStorage.getItem('currentPage')?JSON.parse(localStorage.getItem('currentPage')):0,
-    totalPages:localStorage.getItem('totalPages')?JSON.parse(localStorage.getItem('totalPages')):0,
-    totalItem:localStorage.getItem('totalItems')?JSON.parse(localStorage.getItem('totalItems')):0,
-    books:localStorage.getItem("books")?JSON.parse(localStorage.getItem('books')):[],
+    currentPage:1,
+    totalPages:0,
+    totalItem:0,
+    books:[],
 
 }
 
@@ -28,5 +28,5 @@ export const booksSlice = createSlice({
     }
 })
 
-export const {setBooks} = booksSlice.actions
+export const {setBooks,setCurrentPage,setTotalPages,setTotalItem} = booksSlice.actions
 export default booksSlice.reducer

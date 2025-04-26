@@ -6,7 +6,8 @@ import Featured from "../components/Featured";
 import BrowseBooks from "../components/BrowseBooks";
 import Login from "../components/Auth/Login";
 import Signup from "../components/Auth/Signup";
-import BookDeatil from "../components/Auth/BookDetail";
+import BookDeatil from "../components/BookDetail";
+
 
 const App = lazy(()=>import("../App"))
 
