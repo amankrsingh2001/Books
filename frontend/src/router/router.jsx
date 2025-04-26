@@ -23,12 +23,16 @@ const router = createBrowserRouter([
                     element:[<Hero/>,<Featured/>]
                 },
                 {
-                    path:'/browse',
+                    path:'/books',
                     element:<BrowseBooks/>
                 },{
                     path:'/book/:id',
                     element:<BookDeatil/>
-                }
+                },
+                // {
+                //     path:'/profile',
+                //     element
+                // }
             ]
     },{
         path:'/login',

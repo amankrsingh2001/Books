@@ -53,7 +53,7 @@ try {
     return  <div className="w-screen min-h-screen bg-[url(/public/libarary.png)] flex items-center justify-center">
     <div className="flex justify-around lg:flex-row flex-col bg-white/10 backdrop-blur-2xl rounded-3xl border border-white/20 shadow-2xl w-full max-w-md  space-y-8">
 
-      <div className="relative p-12 text-white cursor-pointer">
+      <div className="relative p-12 text-white cursor-pointer w-full">
         <div className="absolute top-4 right-4 text-end text-xs space-x-1">
         
           <button onClick={()=>navigate('/')} className="inline-block my-auto"><IoMdArrowBack className="text-end inline-block" /> Back to home</button>

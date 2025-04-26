@@ -2,20 +2,25 @@ import axios from "axios"
 import toast from "react-hot-toast"
 import { setBookDetails, setReview } from "../slices/bookDetailsSlice"
 import { setBooks, setCurrentPage, setTotalItem, setTotalPages } from "../slices/bookSlice"
+import { setToken } from "../slices/userSlice"
 
 export function setLogin(data, navigate){
     return async(dispatch)=>{
+        
         const toastId = toast.loading('...loading') 
-            try {
+         try {
+            if(data.email == "" || data.password == ""){
+                throw new Error("Data isnt valid")
+            }
+               
                 const response = await axios.post('http://localhost:8000/api/v1/user/login', data)
-                window.localStorage.setItem('token', response.data.token)
+                dispatch(setToken(response.data.token))
                 toast.success("Logged in successfully",{
                     id:toastId
                 })
-                navigate('/browse')
+                navigate('/books')
             } catch (error){
-                console.log(error)
-                toast.error("Something went wrong",{
+                toast.error(error.message || "Something went wrong",{
                     id:toastId
                 })
             }

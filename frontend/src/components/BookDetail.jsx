@@ -6,10 +6,13 @@ import { FaBackward } from "react-icons/fa";
 import { Badge, BookOpen, Heart, Share, Star } from "lucide-react";
 import { setBooksDetailsById } from "../redux/thunks/api";
 import { ReviewForm } from "./ReviewForm";
+import LoginModal from "./Auth/LoginModal";
 
 export default function BookDeatil() {
-  const { details, review } = useSelector((state) => state.bookDetail);
+  const { details, review } = useSelector((state) => state.bookDetail)
+  const user = useSelector((state)=>state.user);
   const [addReview, setAddReview] = useState(false)
+  const [loginModal, setLoginModal] = useState(false)
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
@@ -23,11 +26,19 @@ export default function BookDeatil() {
     return <div>....Load ho rha hai bhia </div>;
   }
 
+  const reviewhandler = ()=>{
+    if(user.token === null){
+      setLoginModal(true)
+    }else{
+      setAddReview(true)
+    }
+  }
+
   return (
     <div className="w-screen py-20">
       <div className=" flex flex-col ">
         <div
-          onClick={() => navigate("/browse")}
+          onClick={() => navigate("/books")}
           className="cursor-pointer w-[90%] mt-5 mx-auto flex items-center gap-2 text-[#71717A] "
         >
           <FaBackward className="text-sm" />
@@ -99,66 +110,69 @@ export default function BookDeatil() {
             </div>
 
             <div className="flex ">
-                <div className="mx-auto bg-white border border-gray-200 w-[50%] py-2">
+                <div onClick={()=>setAddReview(false)} className="mx-auto bg-white border border-gray-200 w-[50%] py-2">
                   <p className="text-center">Reviews</p>
                 </div>
-                <div onClick={()=>setAddReview(true)} className="mx-auto border border-gray-200 w-[50%] py-2">
+                <div onClick={reviewhandler} className="mx-auto border border-gray-200 w-[50%] py-2">
                 <p className="text-center">Write a Review</p>
                 </div>
             </div>
 
             {
-              !addReview ? <div className="flex flex-col gap-4">
-              {
-                review.map((rev)=>{
-                  return <div key={rev.id} className="rounded-lg border border-gray-200  bg-white  overflow-hidden">
-                  <div className="p-4 pb-2 border-b border-gray-100 ">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="relative h-8 w-8 overflow-hidden rounded-full">
-                          {/* {rev.user.avatar ? (
-                            <img 
-                              src={rev.userId.avatar || "/placeholder.svg"} 
-                              alt={rev.user.name}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium">
-                              {rev.user.initials}
+                  !addReview ? <div className="flex flex-col gap-4">
+                  {
+                    review.map((rev)=>{
+                      return <div key={rev.id} className="rounded-lg border border-gray-200  bg-white  overflow-hidden">
+                      <div className="p-4 pb-2 border-b border-gray-100 ">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="relative h-8 w-8 overflow-hidden rounded-full">
+                              {/* {rev.user.avatar ? (
+                                <img 
+                                  src={rev.userId.avatar || "/placeholder.svg"} 
+                                  alt={rev.user.name}
+                                  className="h-full w-full object-cover"
+                                />
+                              ) : (
+                                <div className="flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium">
+                                  {rev.user.initials}
+                                </div>
+                              )} */}
                             </div>
-                          )} */}
-                        </div>
-                        <div>
-                          <div className="font-medium">{rev.title}</div>
-                          <div className="text-xs text-gray-500 dark:text-gray-400">by {`${rev.userId.firstName }`}  </div>
+                            <div>
+                              <div className="font-medium">{rev.title}</div>
+                              <div className="text-xs text-gray-500 dark:text-gray-400">by {`${rev.userId.firstName }`}  </div>
+                            </div>
+                          </div>
+                          <div className="flex">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`h-4 w-4 ${i < rev.rating ? "fill-amber-500 text-amber-500" : "text-gray-300 dark:text-gray-600"}`}
+                              />
+                            ))}
+                          </div>
                         </div>
                       </div>
-                      <div className="flex">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`h-4 w-4 ${i < rev.rating ? "fill-amber-500 text-amber-500" : "text-gray-300 dark:text-gray-600"}`}
-                          />
-                        ))}
+                      <div className="p-4 pb-2">
+                        <p className="text-sm">{rev.review}</p>
                       </div>
+                      <div className="px-4 py-3 text-xs text-gray-500 dark:text-gray-400">{rev.date}</div>
                     </div>
-                  </div>
-                  <div className="p-4 pb-2">
-                    <p className="text-sm">{rev.review}</p>
-                  </div>
-                  <div className="px-4 py-3 text-xs text-gray-500 dark:text-gray-400">{rev.date}</div>
-                </div>
-                })
-              }
-           </div>:<div>
-            <ReviewForm bookId={params.id} bookTitle={details.name} setAddReview={setAddReview} review={review}/>
-           </div>
+                    })
+                  }
+              </div>:<div>
+                <ReviewForm bookId={params.id} bookTitle={details.name} setAddReview={setAddReview} review={review}/>
+              </div>
             }
 
             
           </div>
         </div>
       </div>
+      {
+        loginModal && <LoginModal setLoginModal={setLoginModal}/>
+      }
     </div>
   );
 }

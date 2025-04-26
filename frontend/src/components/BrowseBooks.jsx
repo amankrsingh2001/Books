@@ -56,8 +56,8 @@ export default function BrowseBooks() {
           </div>
         </div>
       </div>
-      <div className="flex w-[85%]  mx-auto justify-around ">
-        <div className="">
+      <div className="flex w-[80%] mx-auto justify-around ">
+        <div className="hidden lg:block">
           <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-[240px_1fr]">
       
             <div className="space-y-6 rounded-lg shadow-md p-4">
@@ -141,8 +141,8 @@ export default function BrowseBooks() {
           </div>
         </div>
         <div className="">
-          <div className="">
-            <p className="text-md  py-3 w-[85%]  mx-auto  text-[#71717A]">
+          <div className="px-12 py-2 mx-auto">
+            <p className="text-md font-serif  text-[#71717A]">
               Showing {books.books.length} out of {books.totalItem} books{" "}
             </p>
           </div>
