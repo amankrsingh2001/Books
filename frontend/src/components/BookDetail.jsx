@@ -23,7 +23,7 @@ export default function BookDeatil() {
   }, [params.id]);
 
   if (Object.keys(details).length == 0) {
-    return <div>....Load ho rha hai bhia </div>;
+    return <div>....Loading</div>;
   }
 
   const reviewhandler = ()=>{
@@ -83,7 +83,7 @@ export default function BookDeatil() {
               </div>
             </div>
 
-            <div>Book Details</div>
+            
           </div>
 
           <div className="w-[72%] flex flex-col gap-8">
