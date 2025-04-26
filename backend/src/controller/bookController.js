@@ -1,4 +1,5 @@
 import { Book } from "../models/bookmodel.js";
+import { Review } from "../models/reviewmodel.js";
 
 export const addfeaturedBooks = async(req, res)=>{
     try { 
@@ -38,4 +39,31 @@ export const getBook = async(req, res)=>{
                 message:"Failed to get book"
             })
     }
+}
+
+export const getBookDeatils = async(req, res)=>{
+  const {id} = req.query
+  try {
+      if(!id){
+        return res.status(404).json({
+          message:"Id not found",
+          
+          success:false
+        })
+      }
+
+      const getBook = await Book.findById({
+        id:id
+      })
+      const review = await Review.find({
+        bookId:id
+      })
+      
+  } catch (error) {
+      return res.status(500).json({
+        message:"Something went wrong",
+        success:false,
+        
+      })
+  }
 }
